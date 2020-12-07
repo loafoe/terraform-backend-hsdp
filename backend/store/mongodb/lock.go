@@ -1,8 +1,8 @@
 package mongodb
 
 import (
-	"github.com/bhoriuchi/terraform-backend-http/go/store"
-	"github.com/bhoriuchi/terraform-backend-http/go/types"
+	"github.com/philips-labs/terraform-backend-http/backend/store"
+	"github.com/philips-labs/terraform-backend-http/backend/types"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

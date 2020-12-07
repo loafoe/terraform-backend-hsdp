@@ -3,7 +3,7 @@ package store
 import (
 	"errors"
 
-	"github.com/bhoriuchi/terraform-backend-http/go/types"
+	"github.com/philips-labs/terraform-backend-http/backend/types"
 )
 
 // ErrNotFound item not found

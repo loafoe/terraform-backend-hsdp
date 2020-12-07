@@ -4,16 +4,13 @@ import (
 	"log"
 	"net/http"
 
-	backend "github.com/bhoriuchi/terraform-backend-http/go"
-	"github.com/bhoriuchi/terraform-backend-http/go/store/mongodb"
+	"github.com/philips-labs/terraform-backend-http/backend"
+	"github.com/philips-labs/terraform-backend-http/backend/store/s3"
 )
 
 func main() {
 	// create a store
-	store := mongodb.NewStore(&mongodb.Options{
-		Database: "terraform",
-		URI:      "mongodb://localhost:27017",
-	})
+	store := s3.NewStore(&s3.Options{})
 
 	// create a backend
 	tfbackend := backend.NewBackend(store, &backend.Options{

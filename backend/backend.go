@@ -8,8 +8,8 @@ import (
 	"strconv"
 
 	gocrypto "github.com/bhoriuchi/go-crypto"
-	"github.com/bhoriuchi/terraform-backend-http/go/store"
-	"github.com/bhoriuchi/terraform-backend-http/go/types"
+	"github.com/philips-labs/terraform-backend-http/backend/store"
+	"github.com/philips-labs/terraform-backend-http/backend/types"
 )
 
 // Options backend options
