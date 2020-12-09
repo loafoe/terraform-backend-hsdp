@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	gocrypto "github.com/bhoriuchi/go-crypto"
 	"github.com/philips-labs/terraform-backend-http/backend/store"
@@ -87,12 +86,8 @@ func (c *Backend) getEncrypt(r *http.Request) bool {
 	case func(r *http.Request) bool:
 		return encFunc.(func(r *http.Request) bool)(r)
 	}
-
-	encrypt, err := strconv.ParseBool(r.URL.Query().Get("encrypt"))
-	if err != nil {
-		return false
-	}
-	return encrypt
+	// Encrypt by default
+	return true
 }
 
 // decrypts the encrypted state
