@@ -10,6 +10,8 @@ import (
 
 // Options S3 backend options
 type Options struct {
+	Client *minio.Client
+	Bucket string
 }
 
 // NewStore creates a new S3 backend
@@ -17,7 +19,10 @@ func NewStore(opts *Options) *Store {
 	if opts == nil {
 		opts = &Options{}
 	}
-	backend := Store{}
+	backend := Store{
+		client: opts.Client,
+		bucket: opts.Bucket,
+	}
 	return &backend
 }
 

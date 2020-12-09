@@ -73,12 +73,12 @@ func (c *Backend) getEncryptionKey() []byte {
 }
 
 // gets the state ref
-func (c *Backend) getRef(r *http.Request) string {
+func (c *Backend) getRef(r *http.Request) (string, error) {
 	switch refFunc := c.options.GetRefFunc; refFunc.(type) {
-	case func(r *http.Request) string:
-		return refFunc.(func(r *http.Request) string)(r)
+	case func(r *http.Request) (string, error):
+		return refFunc.(func(r *http.Request) (string, error))(r)
 	}
-	return r.URL.Query().Get("ref")
+	return r.URL.Query().Get("ref"), nil
 }
 
 // gets the encrypt state setting
@@ -189,7 +189,16 @@ func (c *Backend) canLock(w http.ResponseWriter, r *http.Request, ref, id string
 
 // HandleGetState gets the state requested
 func (c *Backend) HandleGetState(w http.ResponseWriter, r *http.Request) {
-	ref := c.getRef(r)
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	if err := c.Init(); err != nil {
 		c.options.Logger(
@@ -245,7 +254,16 @@ func (c *Backend) HandleGetState(w http.ResponseWriter, r *http.Request) {
 
 // HandleLockState locks the state
 func (c *Backend) HandleLockState(w http.ResponseWriter, r *http.Request) {
-	ref := c.getRef(r)
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	if err := c.Init(); err != nil {
 		c.options.Logger(
@@ -296,7 +314,16 @@ func (c *Backend) HandleLockState(w http.ResponseWriter, r *http.Request) {
 
 // HandleUnlockState unlocks the state
 func (c *Backend) HandleUnlockState(w http.ResponseWriter, r *http.Request) {
-	ref := c.getRef(r)
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 
 	if err := c.Init(); err != nil {
 		c.options.Logger(
@@ -348,7 +375,16 @@ func (c *Backend) HandleUnlockState(w http.ResponseWriter, r *http.Request) {
 
 // HandleUpdateState updates the state
 func (c *Backend) HandleUpdateState(w http.ResponseWriter, r *http.Request) {
-	ref := c.getRef(r)
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 	encrypt := c.getEncrypt(r)
 	id := r.URL.Query().Get("ID")
 
@@ -418,7 +454,16 @@ func (c *Backend) HandleUpdateState(w http.ResponseWriter, r *http.Request) {
 
 // HandleDeleteState deletes the state
 func (c *Backend) HandleDeleteState(w http.ResponseWriter, r *http.Request) {
-	ref := c.getRef(r)
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
 	id := r.URL.Query().Get("ID")
 
 	if err := c.Init(); err != nil {
