@@ -3,7 +3,7 @@ package store
 import (
 	"errors"
 
-	"github.com/philips-labs/terraform-backend-http/backend/types"
+	"github.com/philips-labs/terraform-backend-hsdp/backend/types"
 )
 
 // ErrNotFound item not found

@@ -13,8 +13,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/philips-software/gautocloud-connectors/hsdp"
 
-	"github.com/philips-labs/terraform-backend-http/backend"
-	"github.com/philips-labs/terraform-backend-http/backend/store/s3"
+	"github.com/philips-labs/terraform-backend-hsdp/backend"
+	"github.com/philips-labs/terraform-backend-hsdp/backend/store/s3"
 )
 
 func main() {
