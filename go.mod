@@ -1,4 +1,4 @@
-module github.com/philips-labs/terraform-backend-http
+module github.com/philips-labs/terraform-backend-hsdp
 
 go 1.15
 

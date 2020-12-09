@@ -8,8 +8,8 @@ import (
 
 	"github.com/minio/minio-go/v7"
 
-	"github.com/philips-labs/terraform-backend-http/backend/store"
-	"github.com/philips-labs/terraform-backend-http/backend/types"
+	"github.com/philips-labs/terraform-backend-hsdp/backend/store"
+	"github.com/philips-labs/terraform-backend-hsdp/backend/types"
 )
 
 func (c *Store) storePath(ref string) string {
