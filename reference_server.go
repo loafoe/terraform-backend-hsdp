@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"path/filepath"
+
+	"github.com/spf13/viper"
 
 	"github.com/philips-software/go-hsdp-api/console"
 
