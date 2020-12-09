@@ -18,6 +18,15 @@ import (
 )
 
 func main() {
+	// Config
+	viper.SetEnvPrefix("tfstate")
+	viper.SetDefault("key", "thisishardlysecure")
+	viper.SetDefault("region", "eu-west")
+	viper.AutomaticEnv()
+
+	encryptionKey := viper.GetString("key")
+	hsdpRegion := viper.GetString("region")
+
 	// S3 bucket
 	var svc *hsdp.S3MinioClient
 	err := gautocloud.Inject(&svc)
@@ -34,7 +43,7 @@ func main() {
 
 	// create a backend
 	tfbackend := backend.NewBackend(store, &backend.Options{
-		EncryptionKey: []byte("thisishardlysecure"),
+		EncryptionKey: []byte(encryptionKey),
 		Logger: func(level, message string, err error) {
 			if err != nil {
 				log.Printf("%s: %s - %v", level, message, err)
@@ -48,7 +57,7 @@ func main() {
 				"test": "metadata",
 			}
 		},
-		GetRefFunc: refFunc(os.Getenv("REGION")),
+		GetRefFunc: refFunc(hsdpRegion),
 	})
 	if err := tfbackend.Init(); err != nil {
 		log.Fatal(err)

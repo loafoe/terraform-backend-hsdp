@@ -13,11 +13,11 @@ import (
 )
 
 func (c *Store) storePath(ref string) string {
-	return filepath.Join("store", ref)
+	return filepath.Join("tfstate", "store", ref)
 }
 
 func (c *Store) lockPath(ref string) string {
-	return filepath.Join("lock", ref)
+	return filepath.Join("tfstate", "lock", ref)
 }
 
 // GetState gets the state
