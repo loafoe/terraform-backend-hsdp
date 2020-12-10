@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/viper"
 
@@ -22,11 +23,11 @@ func main() {
 	// Config
 	viper.SetEnvPrefix("tfstate")
 	viper.SetDefault("key", "thisishardlysecure")
-	viper.SetDefault("region", "eu-west")
+	viper.SetDefault("regions", "us-east,eu-west")
 	viper.AutomaticEnv()
 
 	encryptionKey := viper.GetString("key")
-	hsdpRegion := viper.GetString("region")
+	hsdpRegions := strings.Split(viper.GetString("regions"), ",")
 
 	// S3 bucket
 	var svc *hsdp.S3MinioClient
@@ -58,7 +59,7 @@ func main() {
 				"test": "metadata",
 			}
 		},
-		GetRefFunc: refFunc(hsdpRegion),
+		GetRefFunc: refFunc(hsdpRegions),
 	})
 	if err := tfbackend.Init(); err != nil {
 		log.Fatal(err)
@@ -86,35 +87,45 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func refFunc(region string) func(*http.Request) (string, error) {
-	client, err := console.NewClient(nil, &console.Config{
-		Region: region,
-	})
-	errFunc := func(r *http.Request) (string, error) {
-		return "", err
+func refFunc(regions []string) func(*http.Request) (string, error) {
+	clients := make(map[string]*console.Client, len(regions))
+
+	for _, region := range regions {
+		client, err := console.NewClient(nil, &console.Config{
+			Region: region,
+		})
+		if err == nil {
+			clients[region] = client
+		}
 	}
-	if err != nil {
-		return errFunc
-	}
+
 	return func(r *http.Request) (string, error) {
 		// Authenticate
 		username, password, ok := r.BasicAuth()
 		if !ok {
 			return "", fmt.Errorf("missing authentication")
 		}
+		region := r.URL.Query().Get("region")
+		if region == "" {
+			region = "us-east"
+		}
+		client, ok := clients[region]
+		if !ok {
+			return "", fmt.Errorf("region not found or not supported")
+		}
 		c, err := client.WithLogin(username, password)
 		if err != nil {
 			return "", err
 		}
+		defer c.Close()
 		token, _ := jwt.Parse(c.IDToken(), func(token *jwt.Token) (interface{}, error) {
 			return nil, nil
 		})
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok || claims["sub"] == "" {
-			return "", fmt.Errorf("missing or invalid claims in IDToken")
+			return "", fmt.Errorf("invalid claims")
 		}
 		userUUID := claims["sub"].(string)
-
 		return filepath.Join(userUUID, r.URL.Path), nil
 	}
 }
