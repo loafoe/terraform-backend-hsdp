@@ -8,7 +8,7 @@ An extendable HTTP backend implementation for terraform
 
 ## Overview
 
-The primary goal of this project is to offer storage of Terraform on the HSDP platform with little to no setup required. 
+The primary goal of this project is to offer storage of [Terraform state](https://www.terraform.io/docs/state/index.html) on the HSDP platform with little to no setup required. 
 Currently, we use CF credentials to authenticate access to the backend. 
 These credentials are expected to be in your pipeline already. 
 The best practice is to use a CF functional account for authentication.
