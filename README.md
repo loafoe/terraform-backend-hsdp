@@ -30,7 +30,7 @@ terraform {
 }
 ```
 
-The path of the URL will serve as the `key` to you state, so the value should be exactly the same in `address`, `lock_address` and `unlock_address`
+The path of the URL will serve as the `key` to your state, so the value should be exactly the same in `address`, `lock_address` and `unlock_address`
 
 ### 2. Initialize Terraform
 
