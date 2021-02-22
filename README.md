@@ -23,9 +23,9 @@ The core is derived from [bhoriuchi/terraform-backend-http](https://github.com/b
 ```hcl
 terraform {
   backend "http" {
-    address = "https://tfstate.eu1.phsdp.com/my-state"
-    lock_address = "https://tfstate.eu1.phsdp.com/my-state"
-    unlock_address = "https://eu1.phsdp.com/my-state"
+    address        = "https://tfstate.eu1.phsdp.com/my-state"
+    lock_address   = "https://tfstate.eu1.phsdp.com/my-state"
+    unlock_address = "https://tfstate.eu1.phsdp.com/my-state"
   }
 }
 ```
