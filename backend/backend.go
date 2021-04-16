@@ -278,6 +278,14 @@ func (c *Backend) HandleLockState(w http.ResponseWriter, r *http.Request) {
 		nil,
 	)
 
+	if dump, err := httputil.DumpRequest(r, true); err == nil {
+		c.options.Logger(
+			"debug",
+			fmt.Sprintf("lock dump:\n%s", string(dump)),
+			err,
+		)
+	}
+
 	// decode body
 	var lock types.Lock
 	if err := json.NewDecoder(r.Body).Decode(&lock); err != nil {
