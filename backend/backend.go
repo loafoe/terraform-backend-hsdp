@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/http/httputil"
 
@@ -347,7 +348,7 @@ func (c *Backend) HandleUnlockState(w http.ResponseWriter, r *http.Request) {
 
 	// decode body
 	var lock types.Lock
-	if err := json.NewDecoder(r.Body).Decode(&lock); err != nil {
+	if err := json.NewDecoder(r.Body).Decode(&lock); err != nil && err != io.EOF {
 		c.options.Logger(
 			"error",
 			fmt.Sprintf("error decoding UNLOCK request body for ref %s", ref),
