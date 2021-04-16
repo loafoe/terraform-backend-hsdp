@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/http/httputil"
 
 	gocrypto "github.com/bhoriuchi/go-crypto"
 	"github.com/philips-labs/terraform-backend-hsdp/backend/store"
@@ -335,6 +336,14 @@ func (c *Backend) HandleUnlockState(w http.ResponseWriter, r *http.Request) {
 		fmt.Sprintf("unlocking terraform state for ref %s", ref),
 		nil,
 	)
+
+	if dump, err := httputil.DumpRequest(r, true); err == nil {
+		c.options.Logger(
+			"debug",
+			fmt.Sprintf("unlock dump:\n%s", string(dump)),
+			err,
+		)
+	}
 
 	// decode body
 	var lock types.Lock
