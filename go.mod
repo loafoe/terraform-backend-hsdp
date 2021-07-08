@@ -13,7 +13,7 @@ require (
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/magiconair/properties v1.8.4 // indirect
 	github.com/minio/md5-simd v1.1.1 // indirect
-	github.com/minio/minio-go/v7 v7.0.10
+	github.com/minio/minio-go/v7 v7.0.12
 	github.com/mitchellh/mapstructure v1.4.0 // indirect
 	github.com/pelletier/go-toml v1.8.1 // indirect
 	github.com/philips-software/gautocloud-connectors v0.4.0
