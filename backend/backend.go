@@ -569,6 +569,17 @@ func (c *Backend) HandleListVersions(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	versions, err := c.store.List(ref)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to retrieve list of versions for ref: %s", ref),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	data, _ := json.Marshal(versions)
+	w.Write(data)
 }
 
 // HandleRestoreVersion
