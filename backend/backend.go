@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"net/http/httputil"
+	"time"
 
 	gocrypto "github.com/bhoriuchi/go-crypto"
 	"github.com/philips-labs/terraform-backend-hsdp/backend/store"
@@ -386,6 +387,10 @@ func (c *Backend) HandleUnlockState(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+func (c *Backend) getVersion(now time.Time) string {
+	return now.Format("20060102150405")
+}
+
 // HandleUpdateState updates the state
 func (c *Backend) HandleUpdateState(w http.ResponseWriter, r *http.Request) {
 	ref, err := c.getRef(r)
@@ -461,6 +466,8 @@ func (c *Backend) HandleUpdateState(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	// write a version
+	c.store.PutState(ref, state, metadata, encrypt, c.getVersion(time.Now()))
 
 	w.WriteHeader(http.StatusOK)
 }
@@ -514,6 +521,78 @@ func (c *Backend) HandleDeleteState(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+// HandleKeepVersions
+func (c *Backend) HandleKeepVersions(w http.ResponseWriter, r *http.Request) {
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref in HandleKeepVersions: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	if err := c.Init(); err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to initialize terraform state backend for ref: %s", ref),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+
+// HandleListVersions
+func (c *Backend) HandleListVersions(w http.ResponseWriter, r *http.Request) {
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref in HandleListVersions: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	if err := c.Init(); err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to initialize terraform state backend for ref: %s", ref),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+
+// HandleRestoreVersion
+func (c *Backend) HandleRestoreVersion(w http.ResponseWriter, r *http.Request) {
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref in HandleRestoreVersion: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	if err := c.Init(); err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to initialize terraform state backend for ref: %s", ref),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
 // simple interface

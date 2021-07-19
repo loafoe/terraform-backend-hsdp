@@ -5,8 +5,11 @@ import (
 
 	"github.com/cloudfoundry-community/gautocloud"
 	"github.com/minio/minio-go/v7"
+	"github.com/philips-labs/terraform-backend-hsdp/backend/store"
 	"github.com/philips-software/gautocloud-connectors/hsdp"
 )
+
+var _ store.Store = (*Store)(nil)
 
 // Options S3 backend options
 type Options struct {

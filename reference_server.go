@@ -66,6 +66,16 @@ func main() {
 	}
 
 	// add handlers
+	http.HandleFunc("/versions", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			tfbackend.HandleListVersions(w, r)
+		case http.MethodPut:
+			tfbackend.HandleRestoreVersion(w, r)
+		case http.MethodDelete:
+			tfbackend.HandleKeepVersions(w, r)
+		}
+	})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "LOCK":
@@ -83,7 +93,7 @@ func main() {
 		}
 	})
 
-	log.Println("Starting test server on :8080")
+	log.Println("Starting server on :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 

@@ -16,15 +16,26 @@ func (c *Store) storePath(ref string) string {
 	return filepath.Join("tfstate", "store", ref)
 }
 
+func (c *Store) versionFolder(ref string) string {
+	return filepath.Join("tfstate", "version", ref)
+}
+func (c *Store) versionPath(ref, version string) string {
+	return filepath.Join(c.versionFolder(ref), version)
+}
+
 func (c *Store) lockPath(ref string) string {
 	return filepath.Join("tfstate", "lock", ref)
 }
 
 // GetState gets the state
-func (c *Store) GetState(ref string) (map[string]interface{}, bool, error) {
+func (c *Store) GetState(ref string, version ...string) (map[string]interface{}, bool, error) {
 	opts := minio.GetObjectOptions{}
 	storePath := c.storePath(ref)
 	ctx := context.Background()
+
+	if len(version) > 0 {
+		storePath = c.versionPath(ref, version[0])
+	}
 
 	// Check if object exists
 	_, err := c.client.StatObject(ctx, c.bucket, storePath, opts)
@@ -49,9 +60,13 @@ func (c *Store) GetState(ref string) (map[string]interface{}, bool, error) {
 }
 
 // PutState puts the state
-func (c *Store) PutState(ref string, state, metadata map[string]interface{}, encrypted bool) error {
+func (c *Store) PutState(ref string, state, metadata map[string]interface{}, encrypted bool, version ...string) error {
 	storePath := c.storePath(ref)
 	ctx := context.Background()
+
+	if len(version) > 0 {
+		storePath = c.versionPath(ref, version[0])
+	}
 
 	document := types.StateDocument{
 		Ref:       ref,
