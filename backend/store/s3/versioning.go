@@ -14,7 +14,8 @@ func (c *Store) List(ref string) ([]string, error) {
 	ctx := context.Background()
 
 	opts := minio.ListObjectsOptions{
-		Prefix: versionFolder,
+		Prefix:    versionFolder,
+		Recursive: true,
 	}
 	ch := c.client.ListObjects(ctx, c.bucket, opts)
 	for object := range ch {

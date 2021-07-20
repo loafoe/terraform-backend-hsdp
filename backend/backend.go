@@ -573,13 +573,93 @@ func (c *Backend) HandleListVersions(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		c.options.Logger(
 			"error",
-			fmt.Sprintf("failed to retrieve list of versions for ref: %s", ref),
+			fmt.Sprintf("failed to retrieve list of versions for ref [%s]: %v", ref, err),
 			err,
 		)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-	data, _ := json.Marshal(versions)
+	data, err := json.Marshal(versions)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to marshal list(%d) for ref %s: %v", len(versions), ref, err),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 	w.Write(data)
+}
+
+// HandleRetrieveVersion
+func (c *Backend) HandleRetrieveVersion(w http.ResponseWriter, r *http.Request) {
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref in HandleRestoreVersion: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	if err := c.Init(); err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to initialize terraform state backend for ref: %s", ref),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	var versionRequest struct {
+		Version string `json:"version"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&versionRequest); err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to read version in body for ref [%s]: %v", ref, err),
+			err,
+		)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// get the state
+	state, encrypted, err := c.store.GetState(ref, versionRequest.Version)
+	if err != nil {
+		if err == store.ErrNotFound {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get terraform state for ref: %s", ref),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	// decrypt
+	if encrypted {
+		decryptedState, err := c.decryptState(state)
+		if err != nil {
+			c.options.Logger(
+				"error",
+				fmt.Sprintf("failed decrypt terraform state for ref [%s]: %v", ref, err),
+				err,
+			)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		state = decryptedState
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(state)
 }
 
 // HandleRestoreVersion

@@ -66,22 +66,20 @@ func main() {
 	}
 
 	// add handlers
-	http.HandleFunc("/versions", func(w http.ResponseWriter, r *http.Request) {
-		switch r.Method {
-		case http.MethodGet:
-			tfbackend.HandleListVersions(w, r)
-		case http.MethodPut:
-			tfbackend.HandleRestoreVersion(w, r)
-		case http.MethodDelete:
-			tfbackend.HandleKeepVersions(w, r)
-		}
-	})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "LOCK":
 			tfbackend.HandleLockState(w, r)
 		case "UNLOCK":
 			tfbackend.HandleUnlockState(w, r)
+		case "LIST":
+			tfbackend.HandleListVersions(w, r)
+		case "PRUNE":
+			tfbackend.HandleKeepVersions(w, r)
+		case "RETRIEVE":
+			tfbackend.HandleRetrieveVersion(w, r)
+		case http.MethodPut:
+			tfbackend.HandleRestoreVersion(w, r)
 		case http.MethodGet:
 			tfbackend.HandleGetState(w, r)
 		case http.MethodPost:
