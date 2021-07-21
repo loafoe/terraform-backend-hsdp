@@ -31,7 +31,7 @@ TODO
 
 # Usage
 
-## 1. Add a `backend.tf` to your terraform definition containing
+### 1. Add a `backend.tf` to your terraform definition containing
 
 ```hcl
 terraform {
@@ -45,7 +45,7 @@ terraform {
 
 The path of the URL will serve as the `key` to your state, so the value should be exactly the same in `address`, `lock_address` and `unlock_address`
 
-## 2. Initialize Terraform
+### 2. Initialize Terraform
 
 ```shell
 terraform init \
@@ -66,7 +66,7 @@ terraform init \
 
 ```
 
-## 3. Plan and apply
+### 3. Plan and apply
 
 ```shell
 terraform plan

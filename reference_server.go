@@ -103,6 +103,7 @@ func main() {
 }
 
 func refFunc(regions []string, allowList string) func(*http.Request) (string, error) {
+	var allowed []string
 	clients := make(map[string]*console.Client, len(regions))
 
 	for _, region := range regions {
@@ -113,8 +114,9 @@ func refFunc(regions []string, allowList string) func(*http.Request) (string, er
 			clients[region] = client
 		}
 	}
-	allowed := strings.Split(allowList, ",")
-
+	if allowList != "" {
+		allowed = strings.Split(allowList, ",")
+	}
 	return func(r *http.Request) (string, error) {
 		// Authenticate
 		username, password, ok := r.BasicAuth()
