@@ -22,12 +22,19 @@ import (
 func main() {
 	// Config
 	viper.SetEnvPrefix("tfstate")
-	viper.SetDefault("key", "thisishardlysecure")
+	viper.SetDefault("key", "")
 	viper.SetDefault("regions", "us-east,eu-west")
+	viper.SetDefault("allow_list", "")
 	viper.AutomaticEnv()
 
 	encryptionKey := viper.GetString("key")
 	hsdpRegions := strings.Split(viper.GetString("regions"), ",")
+	allowList := viper.GetString("allow_list")
+
+	if encryptionKey == "" {
+		log.Printf("encryption key cannot be blank\n")
+		return
+	}
 
 	// S3 bucket
 	var svc *hsdp.S3MinioClient
@@ -59,7 +66,7 @@ func main() {
 				"test": "metadata",
 			}
 		},
-		GetRefFunc: refFunc(hsdpRegions),
+		GetRefFunc: refFunc(hsdpRegions, allowList),
 	})
 	if err := tfbackend.Init(); err != nil {
 		log.Fatal(err)
@@ -95,7 +102,7 @@ func main() {
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
-func refFunc(regions []string) func(*http.Request) (string, error) {
+func refFunc(regions []string, allowList string) func(*http.Request) (string, error) {
 	clients := make(map[string]*console.Client, len(regions))
 
 	for _, region := range regions {
@@ -106,12 +113,25 @@ func refFunc(regions []string) func(*http.Request) (string, error) {
 			clients[region] = client
 		}
 	}
+	allowed := strings.Split(allowList, ",")
 
 	return func(r *http.Request) (string, error) {
 		// Authenticate
 		username, password, ok := r.BasicAuth()
 		if !ok {
 			return "", fmt.Errorf("missing authentication")
+		}
+		if len(allowed) > 0 {
+			approved := false
+			for _, u := range allowed {
+				if username == u {
+					approved = true
+					break
+				}
+			}
+			if !approved {
+				return "", fmt.Errorf("not authorized to use this backend")
+			}
 		}
 		region := r.URL.Query().Get("region")
 		if region == "" {
