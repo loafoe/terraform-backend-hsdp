@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/minio/minio-go/v7"
 
@@ -25,6 +27,31 @@ func (c *Store) versionPath(ref, version string) string {
 
 func (c *Store) lockPath(ref string) string {
 	return filepath.Join("tfstate", "lock", ref)
+}
+
+// GetStates lists all the states (refs)
+func (c *Store) GetStates(ref string) ([]string, error) {
+	var states []string
+
+	storePath := c.storePath(ref)
+	ctx := context.Background()
+	opts := minio.ListObjectsOptions{
+		Prefix:    storePath,
+		Recursive: true,
+	}
+	ch := c.client.ListObjects(ctx, c.bucket, opts)
+	for object := range ch {
+		if object.Err != nil {
+			fmt.Println(object.Err)
+			continue
+		}
+		parts := strings.Split(object.Key, "/")
+		if len(parts) > 3 { // "tfstate/store/{uuid}/..."
+			key := strings.Join(parts[3:], "/")
+			states = append(states, key)
+		}
+	}
+	return states, nil
 }
 
 // GetState gets the state

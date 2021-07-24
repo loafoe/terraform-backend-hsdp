@@ -547,6 +547,49 @@ func (c *Backend) HandleKeepVersions(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// HandleListStates
+func (c *Backend) HandleListStates(w http.ResponseWriter, r *http.Request) {
+	ref, err := c.getRef(r)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to get ref in HandleListStates: %v", err),
+			err,
+		)
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	if err := c.Init(); err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to initialize terraform state backend for ref: %s", ref),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	states, err := c.store.GetStates(ref)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to retrieve list of states for ref [%s]: %v", ref, err),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	data, err := json.Marshal(states)
+	if err != nil {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("failed to marshal states(%d) for ref %s: %v", len(states), ref, err),
+			err,
+		)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+	w.Write(data)
+}
+
 // HandleListVersions
 func (c *Backend) HandleListVersions(w http.ResponseWriter, r *http.Request) {
 	ref, err := c.getRef(r)

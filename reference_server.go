@@ -81,6 +81,8 @@ func main() {
 			tfbackend.HandleUnlockState(w, r)
 		case "LIST":
 			tfbackend.HandleListVersions(w, r)
+		case "STATES":
+			tfbackend.HandleListStates(w, r)
 		case "PRUNE":
 			tfbackend.HandleKeepVersions(w, r)
 		case "RETRIEVE":
