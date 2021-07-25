@@ -72,6 +72,32 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// state
+	http.HandleFunc("/states", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			tfbackend.HandleListStates(w, r)
+		default:
+			w.WriteHeader(http.StatusMethodNotAllowed)
+		}
+	})
+
+	// version
+	http.HandleFunc("/versions", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			tfbackend.HandleListVersions(w, r)
+		case http.MethodDelete:
+			tfbackend.HandleKeepVersions(w, r)
+		case "RETRIEVE":
+			tfbackend.HandleRetrieveVersion(w, r)
+		case http.MethodPut:
+			tfbackend.HandleRestoreVersion(w, r)
+		default:
+			w.WriteHeader(http.StatusMethodNotAllowed)
+		}
+	})
+
 	// add handlers
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
@@ -79,16 +105,6 @@ func main() {
 			tfbackend.HandleLockState(w, r)
 		case "UNLOCK":
 			tfbackend.HandleUnlockState(w, r)
-		case "LIST":
-			tfbackend.HandleListVersions(w, r)
-		case "STATES":
-			tfbackend.HandleListStates(w, r)
-		case "PRUNE":
-			tfbackend.HandleKeepVersions(w, r)
-		case "RETRIEVE":
-			tfbackend.HandleRetrieveVersion(w, r)
-		case http.MethodPut:
-			tfbackend.HandleRestoreVersion(w, r)
 		case http.MethodGet:
 			tfbackend.HandleGetState(w, r)
 		case http.MethodPost:
@@ -137,20 +153,29 @@ func refFunc(regions []string, allowList string) func(*http.Request) (string, er
 				return "", fmt.Errorf("not authorized to use this backend")
 			}
 		}
-		region := r.URL.Query().Get("region")
-		if region == "" {
-			region = "us-east"
+		checkRegion := r.URL.Query().Get("region")
+		authenticated := false
+
+		var client *console.Client
+		for region, rc := range clients {
+			if checkRegion != "" && region != checkRegion {
+				continue
+			}
+			c, err := rc.WithLogin(username, password)
+			if err == nil && c != nil {
+				client = c
+				authenticated = true
+				break
+			}
+			if c != nil {
+				c.Close()
+			}
 		}
-		client, ok := clients[region]
-		if !ok {
-			return "", fmt.Errorf("region not found or not supported")
+		if !authenticated || client == nil {
+			return "", fmt.Errorf("authorization failed")
 		}
-		c, err := client.WithLogin(username, password)
-		if err != nil {
-			return "", err
-		}
-		defer c.Close()
-		token, _ := jwt.Parse(c.IDToken(), func(token *jwt.Token) (interface{}, error) {
+		defer client.Close()
+		token, _ := jwt.Parse(client.IDToken(), func(token *jwt.Token) (interface{}, error) {
 			return nil, nil
 		})
 		claims, ok := token.Claims.(jwt.MapClaims)
@@ -158,6 +183,14 @@ func refFunc(regions []string, allowList string) func(*http.Request) (string, er
 			return "", fmt.Errorf("invalid claims")
 		}
 		userUUID := claims["sub"].(string)
-		return filepath.Join(userUUID, r.URL.Path), nil
+		path := r.URL.Path
+		if path == "/versions" || path == "/states" {
+			path = "/"
+		}
+		queryRef := r.URL.Query().Get("ref")
+		if queryRef != "" {
+			path = queryRef
+		}
+		return filepath.Join(userUUID, path), nil
 	}
 }

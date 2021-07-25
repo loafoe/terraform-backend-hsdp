@@ -153,7 +153,7 @@ func (c *Backend) encryptState(state interface{}) (map[string]interface{}, error
 }
 
 // determines if the state can be locked
-func (c *Backend) canLock(w http.ResponseWriter, r *http.Request, ref, id string) bool {
+func (c *Backend) canLock(w http.ResponseWriter, _ *http.Request, ref, id string) bool {
 	lock, err := c.store.GetLock(ref)
 	if err != nil {
 		if err == store.ErrNotFound {
@@ -181,7 +181,7 @@ func (c *Backend) canLock(w http.ResponseWriter, r *http.Request, ref, id string
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusLocked)
-	json.NewEncoder(w).Encode(lock)
+	_ = json.NewEncoder(w).Encode(lock)
 	return false
 }
 
@@ -247,7 +247,7 @@ func (c *Backend) HandleGetState(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(state)
+	_ = json.NewEncoder(w).Encode(state)
 }
 
 // HandleLockState locks the state
@@ -467,7 +467,7 @@ func (c *Backend) HandleUpdateState(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// write a version
-	c.store.PutState(ref, state, metadata, encrypt, c.getVersion(time.Now()))
+	_ = c.store.PutState(ref, state, metadata, encrypt, c.getVersion(time.Now()))
 
 	w.WriteHeader(http.StatusOK)
 }
@@ -587,7 +587,7 @@ func (c *Backend) HandleListStates(w http.ResponseWriter, r *http.Request) {
 		)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-	w.Write(data)
+	_, _ = w.Write(data)
 }
 
 // HandleListVersions
@@ -600,6 +600,16 @@ func (c *Backend) HandleListVersions(w http.ResponseWriter, r *http.Request) {
 			err,
 		)
 		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+	// Check if ref came in properly
+	if r.URL.Query().Get("ref") == "" {
+		c.options.Logger(
+			"error",
+			fmt.Sprintf("expecting ref as qeury parameter\n"),
+			err,
+		)
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
@@ -630,7 +640,7 @@ func (c *Backend) HandleListVersions(w http.ResponseWriter, r *http.Request) {
 		)
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-	w.Write(data)
+	_, _ = w.Write(data)
 }
 
 // HandleRetrieveVersion
@@ -702,7 +712,7 @@ func (c *Backend) HandleRetrieveVersion(w http.ResponseWriter, r *http.Request) 
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(state)
+	_ = json.NewEncoder(w).Encode(state)
 }
 
 // HandleRestoreVersion
