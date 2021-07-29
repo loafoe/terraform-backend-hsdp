@@ -24,10 +24,46 @@ in a separate space in order to limit who has access. Terraform state will conta
 level secrets so only operators within your organization should have access.
 
 ## Provision an S3 bucket
-TODO
+
+```shell
+cf cs hsdp-s3 s3_bucket s3-tfstate
+```
+
+This provision an S3 bucket called `s3-tfstate`
+
 
 ## Deploy the service
-TODO
+
+Use the following `manifest.yml` as an example
+
+```yaml
+---
+applications:
+- name: tfstate
+  env:
+    TFSTATE_KEY: SecretKeyHereThisIsUsedForEncryption
+    TFSTATE_REGIONS: us-east,eu-west
+  docker:
+    image: philipslabs/terraform-backend-hsdp:v0.0.10
+  services:
+  - s3-tfstate
+  routes:
+  - route: tfstate.eu1.phsdp.com
+  processes:
+  - type: web
+    instances: 1
+    memory: 64M
+    disk_quota: 1024M
+    health-check-type: port
+```
+
+Save this to a `manifest.yml` and make the necssary changes i.e. the appname and routes. Then deploy
+
+```shell
+cf push -f manifest.yml
+```
+
+After a few seconds you should have a running backend
 
 # Usage
 
