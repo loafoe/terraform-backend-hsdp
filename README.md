@@ -48,7 +48,7 @@ applications:
   services:
   - s3-tfstate
   routes:
-  - route: tfstate.eu1.phsdp.com
+  - route: my-tfstate.eu1.phsdp.com
   processes:
   - type: web
     instances: 1
@@ -72,9 +72,9 @@ After a few seconds you should have a running backend
 ```hcl
 terraform {
   backend "http" {
-    address        = "https://tfstate.eu1.phsdp.com/my-state"
-    lock_address   = "https://tfstate.eu1.phsdp.com/my-state"
-    unlock_address = "https://tfstate.eu1.phsdp.com/my-state"
+    address        = "https://my-tfstate.eu1.phsdp.com/my-state"
+    lock_address   = "https://my-tfstate.eu1.phsdp.com/my-state"
+    unlock_address = "https://my-tfstate.eu1.phsdp.com/my-state"
   }
 }
 ```
@@ -96,9 +96,9 @@ case you can remove these values from `backend.tf` as shown in step 1:
 terraform init \
   -backend-config="username=${username}" \
   -backend-config="password=${password}" \
-  -backend-config="address=https://tfstate.eu1.phsdp.com/${key}" \
-  -backend-config="lock_address=https://tfstate.eu1.phsdp.com/${key}" \
-  -backend-config="unlock_address=https://tfstate.eu1.phsdp.com/${key}"
+  -backend-config="address=https://my-tfstate.eu1.phsdp.com/${key}" \
+  -backend-config="lock_address=https://my-tfstate.eu1.phsdp.com/${key}" \
+  -backend-config="unlock_address=https://my-tfstate.eu1.phsdp.com/${key}"
 
 ```
 
