@@ -24,10 +24,45 @@ in a separate space in order to limit who has access. Terraform state will conta
 level secrets so only operators within your organization should have access.
 
 ## Provision an S3 bucket
-TODO
+Create an S3 bucket:
+```shell
+cf cs hsdp-s3 s3_bucket my-tfstate-bucket
+```
 
 ## Deploy the service
-TODO
+Save the below example manifest and modify accordingly:
+```yaml
+---
+applications:
+- name: my-tfstate
+  env:
+    TFSTATE_KEY: SecretKeyHereUsedForEncryptingState
+    TFSTATE_REGIONS: us-east,eu-west
+  docker:
+    image: philipslabs/terraform-backend-hsdp:v0.0.10
+  services:
+  - my-tfstate-bucket
+  routes:
+  - route: my-tfstate.eu1.phsdp.com
+  processes:
+  - type: web
+    instances: 1
+    memory: 64M
+    disk_quota: 1024M
+    health-check-type: port
+```
+
+Then deploy:
+```shell
+cf push -f manifest.yml
+```
+
+## Configuration
+| Environment | Description | Required | Default |
+|-------------|-------------|----------|---------|
+| TFSTATE\_KEY | The encryption key for storage at rest | Y | |
+| TFSTATE\_ALLOW\_LIST | Comma separated list of allows users | N |"" (every valid LDAP user can access) |
+| TFSTATE\_REGIONS | The HSDP regions to validate LDAP accounts in | N | "us-east,eu-west" |  
 
 # Usage
 
