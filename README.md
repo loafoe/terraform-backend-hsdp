@@ -41,7 +41,7 @@ applications:
     TFSTATE_KEY: SecretKeyHereThisIsUsedForEncryption
     TFSTATE_REGIONS: us-east,eu-west
   docker:
-    image: philipslabs/terraform-backend-hsdp:v0.0.10
+    image: philipslabs/terraform-backend-hsdp:v0.1.0
   services:
   - my-tfstate-bucket
   routes:
