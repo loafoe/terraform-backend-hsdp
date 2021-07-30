@@ -9,6 +9,13 @@ import (
 // ErrNotFound item not found
 var ErrNotFound = errors.New("resource not found")
 
+// Stats store interface
+type Stats interface {
+	Locks(age int) (int, error)
+	States() (int, error)
+	Identities() (int, error)
+}
+
 // Store store interface
 type Store interface {
 	Init() error
