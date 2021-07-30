@@ -30,13 +30,15 @@ cf cs hsdp-s3 s3_bucket my-tfstate-bucket
 ```
 
 ## Deploy the service
-Save the below example manifest and modify accordingly:
+
+Use the following `manifest.yml` as an example
+
 ```yaml
 ---
 applications:
-- name: my-tfstate
+- name: tfstate
   env:
-    TFSTATE_KEY: SecretKeyHereUsedForEncryptingState
+    TFSTATE_KEY: SecretKeyHereThisIsUsedForEncryption
     TFSTATE_REGIONS: us-east,eu-west
   docker:
     image: philipslabs/terraform-backend-hsdp:v0.0.10
@@ -52,10 +54,12 @@ applications:
     health-check-type: port
 ```
 
-Then deploy:
+Save this to a `manifest.yml` and make the necessary changes i.e. the appname and routes. Then deploy:
+
 ```shell
 cf push -f manifest.yml
 ```
+After a few seconds you should have a running backend
 
 ## Configuration
 | Environment | Description | Required | Default |
@@ -71,9 +75,9 @@ cf push -f manifest.yml
 ```hcl
 terraform {
   backend "http" {
-    address        = "https://tfstate.eu1.phsdp.com/my-state"
-    lock_address   = "https://tfstate.eu1.phsdp.com/my-state"
-    unlock_address = "https://tfstate.eu1.phsdp.com/my-state"
+    address        = "https://my-tfstate.eu1.phsdp.com/my-state"
+    lock_address   = "https://my-tfstate.eu1.phsdp.com/my-state"
+    unlock_address = "https://my-tfstate.eu1.phsdp.com/my-state"
   }
 }
 ```
@@ -95,9 +99,9 @@ case you can remove these values from `backend.tf` as shown in step 1:
 terraform init \
   -backend-config="username=${username}" \
   -backend-config="password=${password}" \
-  -backend-config="address=https://tfstate.eu1.phsdp.com/${key}" \
-  -backend-config="lock_address=https://tfstate.eu1.phsdp.com/${key}" \
-  -backend-config="unlock_address=https://tfstate.eu1.phsdp.com/${key}"
+  -backend-config="address=https://my-tfstate.eu1.phsdp.com/${key}" \
+  -backend-config="lock_address=https://my-tfstate.eu1.phsdp.com/${key}" \
+  -backend-config="unlock_address=https://my-tfstate.eu1.phsdp.com/${key}"
 
 ```
 
