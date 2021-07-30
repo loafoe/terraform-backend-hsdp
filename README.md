@@ -64,9 +64,9 @@ After a few seconds you should have a running backend
 ## Configuration
 | Environment | Description | Required | Default |
 |-------------|-------------|----------|---------|
-| TFSTATE\_KEY | The encryption key for storage at rest | Y | |
-| TFSTATE\_ALLOW\_LIST | Comma separated list of allows users | N |"" (every valid LDAP user can access) |
-| TFSTATE\_REGIONS | The HSDP regions to validate LDAP accounts in | N | "us-east,eu-west" |  
+| TFSTATE\_KEY | The encryption key for storage at rest | `Yes` | |
+| TFSTATE\_ALLOW\_LIST | Comma separated list of allows users | `No` |`""` (every valid LDAP user can access) |
+| TFSTATE\_REGIONS | The HSDP regions to validate LDAP accounts in | `No` | `"us-east,eu-west"` |  
 
 # Usage
 
