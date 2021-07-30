@@ -96,7 +96,7 @@ func (c *Backend) getEncrypt(r *http.Request) bool {
 // decrypts the encrypted state
 func (c *Backend) decryptState(encryptedState interface{}) (map[string]interface{}, error) {
 	key := c.getEncryptionKey()
-	if key == nil || len(key) == 0 {
+	if len(key) == 0 {
 		return nil, fmt.Errorf("failed to get backend encryption key")
 	}
 
@@ -126,7 +126,7 @@ func (c *Backend) decryptState(encryptedState interface{}) (map[string]interface
 // encrypts the state
 func (c *Backend) encryptState(state interface{}) (map[string]interface{}, error) {
 	key := c.getEncryptionKey()
-	if key == nil || len(key) == 0 {
+	if len(key) == 0 {
 		return nil, fmt.Errorf("failed to get backend encryption key")
 	}
 
@@ -606,7 +606,7 @@ func (c *Backend) HandleListVersions(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Query().Get("ref") == "" {
 		c.options.Logger(
 			"error",
-			fmt.Sprintf("expecting ref as qeury parameter\n"),
+			"expecting ref as query parameter",
 			err,
 		)
 		w.WriteHeader(http.StatusBadRequest)
