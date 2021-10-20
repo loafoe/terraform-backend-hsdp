@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/bhoriuchi/go-crypto v0.0.0-20190614232206-6aed78a5c061
-	github.com/cloudfoundry-community/gautocloud v1.1.7
+	github.com/cloudfoundry-community/gautocloud v1.1.8
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/minio/md5-simd v1.1.1 // indirect
 	github.com/minio/minio-go/v7 v7.0.15
