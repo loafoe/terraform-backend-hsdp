@@ -12,7 +12,7 @@ import (
 	"github.com/philips-software/go-hsdp-api/console"
 
 	"github.com/cloudfoundry-community/gautocloud"
-	"github.com/dgrijalva/jwt-go"
+        "github.com/golang-jwt/jwt"
 	"github.com/philips-software/gautocloud-connectors/hsdp"
 
 	"github.com/philips-labs/terraform-backend-hsdp/backend"
