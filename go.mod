@@ -9,7 +9,7 @@ require (
 	github.com/minio/md5-simd v1.1.1 // indirect
 	github.com/minio/minio-go/v7 v7.0.22
 	github.com/philips-software/gautocloud-connectors v0.6.0
-	github.com/philips-software/go-hsdp-api v0.61.4
+	github.com/philips-software/go-hsdp-api v0.61.8
 	github.com/spf13/viper v1.10.1
 )
 
