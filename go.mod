@@ -10,7 +10,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.23
 	github.com/philips-software/gautocloud-connectors v0.6.0
 	github.com/philips-software/go-hsdp-api v0.61.9
-	github.com/spf13/viper v1.10.1
+	github.com/spf13/viper v1.11.0
 )
 
 replace github.com/cloudfoundry-community/gautocloud v1.1.6 => github.com/loafoe/gautocloud v0.0.0-20201207124432-b51ec5b81955
