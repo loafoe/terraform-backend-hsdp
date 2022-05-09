@@ -7,7 +7,7 @@ require (
 	github.com/cloudfoundry-community/gautocloud v1.1.8
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/minio/md5-simd v1.1.1 // indirect
-	github.com/minio/minio-go/v7 v7.0.23
+	github.com/minio/minio-go/v7 v7.0.26
 	github.com/philips-software/gautocloud-connectors v0.6.0
 	github.com/philips-software/go-hsdp-api v0.61.9
 	github.com/spf13/viper v1.10.1
