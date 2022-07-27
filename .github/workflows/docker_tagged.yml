@@ -47,8 +47,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: philipslabs/terraform-backend-hsdp:${{ steps.vars.outputs.tag }},docker.na1.hsdp.io/philipslabs/terraform-backend-hsdp:${{ steps.vars.outputs.tag }}
-          cache-from: type=registry,ref=philipslabs/terraform-backend-hsdp:latest
+          tags: loafoe/terraform-backend-hsdp:${{ steps.vars.outputs.tag }},docker.na1.hsdp.io/loafoe/terraform-backend-hsdp:${{ steps.vars.outputs.tag }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
