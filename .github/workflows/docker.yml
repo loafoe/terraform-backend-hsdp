@@ -36,4 +36,4 @@ jobs:
          file: ./Dockerfile
          platforms: linux/amd64,linux/arm64
          push: true
-         tags: loafoe/terraform-backend-hsdp:latest,docker.na1.hsdp.io/loafoe/terraform-backend-hsdp:latest
+         tags: loafoe/terraform-backend-hsdp:latest,docker.na1.hsdp.io/loafoe/terraform-backend-hsdp:latest,docker.na1.hsdp.io/alcon-dhs-docker-registry/terraform-backend-hsdp:latest
