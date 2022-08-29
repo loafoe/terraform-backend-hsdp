@@ -540,7 +540,7 @@ github.com/hashicorp/vault/sdk v0.2.1 h1:S4O6Iv/dyKlE9AUTXGa7VOvZmsCvg36toPKgV4f
 github.com/hashicorp/vault/sdk v0.2.1/go.mod h1:WfUiO1vYzfBkz1TmoE4ZGU7HD0T0Cl/rZwaxjBkgN4U=
 github.com/hashicorp/yamux v0.0.0-20180604194846-3520598351bb/go.mod h1:+NfK9FKeTrX5uv1uIXGdwYDTeHna2qgaIlx54MXqjAM=
 github.com/hasura/go-graphql-client v0.2.0/go.mod h1:ovhXpnBL/+pYmmdYHndovgAc/wmhaXKvKwJETjtMomQ=
-github.com/hasura/go-graphql-client v0.7.2/go.mod h1:NVifIwv+YFIUYGLQ7SM2/vBbzS/9rFP4vmIf/vf/zXM=
+github.com/hasura/go-graphql-client v0.8.0/go.mod h1:NVifIwv+YFIUYGLQ7SM2/vBbzS/9rFP4vmIf/vf/zXM=
 github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpOxQnU=
 github.com/hudl/fargo v1.4.0/go.mod h1:9Ai6uvFy5fQNq6VPKtg+Ceq1+eTY4nKUlR2JElEOcDo=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
@@ -762,8 +762,8 @@ github.com/philhofer/fwd v1.0.0/go.mod h1:gk3iGcWd9+svBvR0sR+KPcfE+RNWozjowpeBVG
 github.com/philips-software/gautocloud-connectors v0.6.0 h1:gRe+IlwoDRXRDool7cdc7kkDRsaF/7dciTLUb2BfM28=
 github.com/philips-software/gautocloud-connectors v0.6.0/go.mod h1:Y5ar+iEKrWQJFmHUUpUzPRGuwbj7+W8NCAUmioXPW1Q=
 github.com/philips-software/go-hsdp-api v0.42.3/go.mod h1:QmUPrNMEQBuVOVoBfw9zppqsweuaPNz3fIZAPaStLnY=
-github.com/philips-software/go-hsdp-api v0.72.3 h1:OQnxJKuArfRTDUsZhXJKdcj1h3hHVPbqR1ktdbka+rA=
-github.com/philips-software/go-hsdp-api v0.72.3/go.mod h1:/Q8avsK9Uklp939AOF4wBsho1hvZainZLRMvMV++GKA=
+github.com/philips-software/go-hsdp-api v0.72.4 h1:SmfGj6uGMTq97WAalqg0c8Q3viElfdyLcWxq7TOoAqU=
+github.com/philips-software/go-hsdp-api v0.72.4/go.mod h1:R5Huf3h6LC4QENJslei1Yaujerf8Jn1JFvrkufjZ1aE=
 github.com/philips-software/go-hsdp-signer v1.3.0/go.mod h1:/QehZ/+Aks2t1TFpjhF/7ZSB8PJIIJHzLc03rOqwLw0=
 github.com/philips-software/go-hsdp-signer v1.4.0/go.mod h1:/QehZ/+Aks2t1TFpjhF/7ZSB8PJIIJHzLc03rOqwLw0=
 github.com/pierrec/lz4 v2.0.5+incompatible/go.mod h1:pdkljMzZIN41W+lC3N2tnIh5sFi+IEE17M5jbnwPHcY=
