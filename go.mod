@@ -1,6 +1,6 @@
 module github.com/philips-labs/terraform-backend-hsdp
 
-go 1.15
+go 1.19
 
 require (
 	github.com/bhoriuchi/go-crypto v0.0.0-20190614232206-6aed78a5c061
