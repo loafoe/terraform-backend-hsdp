@@ -1,14 +1,14 @@
 # terraform-backend-hsdp
 An extendable HTTP backend implementation for terraform
 
-# Features
+## Features
 
 * Encrypt state at rest with AES-256-GCM
 * Extensible store: currently supports S3, more to come
 * HSDP UAA integration: use LDAP / functional account credentials for auth
 * Allow list support: restrict use of an instance backend to specific accounts
 
-# Overview
+## Overview
 
 The primary goal of this project is to offer storage of [Terraform state](https://www.terraform.io/docs/state/index.html) on the HSDP platform with little to no setup required. 
 Currently, we use CF credentials to authenticate access to the backend. 
@@ -18,18 +18,18 @@ Future iterations may introduce service key credentials similar to the HSDP Dock
 
 The core is derived from [bhoriuchi/terraform-backend-http](https://github.com/bhoriuchi/terraform-backend-http)
 
-# Install
+## Install
 When self-hosting, you should deploy both the S3 bucket and the application deployment
 in a separate space in order to limit who has access. Terraform state will contain operator
 level secrets so only operators within your organization should have access.
 
-## Provision an S3 bucket
+### Provision an S3 bucket
 Create an S3 bucket:
 ```shell
 cf cs hsdp-s3 s3_bucket my-tfstate-bucket
 ```
 
-## Deploy the service
+### Deploy the service
 
 Use the following `manifest.yml` as an example
 
@@ -62,13 +62,14 @@ cf push -f manifest.yml
 After a few seconds you should have a running backend
 
 ## Configuration
+
 | Environment | Description | Required | Default |
 |-------------|-------------|----------|---------|
 | TFSTATE\_KEY | The encryption key for storage at rest | `Yes` | |
 | TFSTATE\_ALLOW\_LIST | Comma separated list of allows users | `No` |`""` (every valid LDAP user can access) |
 | TFSTATE\_REGIONS | The HSDP regions to validate LDAP accounts in | `No` | `"us-east,eu-west"` |  
 
-# Usage
+## Usage
 
 ### 1. Add a `backend.tf` to your terraform definition containing
 
@@ -115,5 +116,5 @@ terraform apply
 ...
 ```
 
-# License
+## License
 License is MIT
