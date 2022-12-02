@@ -8,7 +8,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/minio/minio-go/v7 v7.0.44
 	github.com/philips-software/gautocloud-connectors v0.7.0
-	github.com/philips-software/go-hsdp-api v0.76.0
+	github.com/philips-software/go-hsdp-api v0.76.1
 	github.com/spf13/viper v1.14.0
 )
 
