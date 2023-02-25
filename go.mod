@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/bhoriuchi/go-crypto v0.0.0-20190614232206-6aed78a5c061
-	github.com/cloudfoundry-community/gautocloud v1.1.11
+	github.com/cloudfoundry-community/gautocloud v1.2.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/minio/minio-go/v7 v7.0.49
 	github.com/philips-software/gautocloud-connectors v0.7.0
@@ -96,7 +96,7 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783 // indirect
+	golang.org/x/oauth2 v0.3.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
