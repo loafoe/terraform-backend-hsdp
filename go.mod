@@ -8,7 +8,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/minio/minio-go/v7 v7.0.52
 	github.com/philips-software/gautocloud-connectors v0.7.0
-	github.com/philips-software/go-hsdp-api v0.80.1
+	github.com/philips-software/go-hsdp-api v0.81.0
 	github.com/spf13/viper v1.15.0
 )
 
@@ -98,8 +98,8 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	golang.org/x/crypto v0.8.0 // indirect
-	golang.org/x/net v0.9.0 // indirect
-	golang.org/x/oauth2 v0.7.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
+	golang.org/x/oauth2 v0.8.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
