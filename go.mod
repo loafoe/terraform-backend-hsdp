@@ -6,7 +6,7 @@ require (
 	github.com/bhoriuchi/go-crypto v0.0.0-20190614232206-6aed78a5c061
 	github.com/cloudfoundry-community/gautocloud v1.3.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/minio/minio-go/v7 v7.0.52
+	github.com/minio/minio-go/v7 v7.0.53
 	github.com/philips-software/gautocloud-connectors v0.7.0
 	github.com/philips-software/go-hsdp-api v0.80.1
 	github.com/spf13/viper v1.15.0
