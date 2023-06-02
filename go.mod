@@ -6,7 +6,7 @@ require (
 	github.com/bhoriuchi/go-crypto v0.0.0-20190614232206-6aed78a5c061
 	github.com/cloudfoundry-community/gautocloud v1.3.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/minio/minio-go/v7 v7.0.52
+	github.com/minio/minio-go/v7 v7.0.56
 	github.com/philips-software/gautocloud-connectors v0.7.0
 	github.com/philips-software/go-hsdp-api v0.80.1
 	github.com/spf13/viper v1.15.0
@@ -71,7 +71,7 @@ require (
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
-	github.com/minio/sha256-simd v1.0.0 // indirect
+	github.com/minio/sha256-simd v1.0.1 // indirect
 	github.com/mitchellh/copystructure v1.0.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/go-testing-interface v1.14.0 // indirect
@@ -83,11 +83,11 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
 	github.com/pierrec/lz4 v2.6.0+incompatible // indirect
 	github.com/pierrec/lz4/v4 v4.1.15 // indirect
-	github.com/rs/xid v1.4.0 // indirect
+	github.com/rs/xid v1.5.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/segmentio/kafka-go v0.4.35 // indirect
-	github.com/sirupsen/logrus v1.9.0 // indirect
+	github.com/sirupsen/logrus v1.9.2 // indirect
 	github.com/spf13/afero v1.9.5 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -97,8 +97,8 @@ require (
 	github.com/ttacon/libphonenumber v1.0.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
-	golang.org/x/crypto v0.8.0 // indirect
-	golang.org/x/net v0.9.0 // indirect
+	golang.org/x/crypto v0.9.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/oauth2 v0.7.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
