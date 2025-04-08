@@ -9,14 +9,14 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/philips-software/go-hsdp-api/console"
+	"github.com/dip-software/go-dip-api/console"
 
 	"github.com/cloudfoundry-community/gautocloud"
         "github.com/golang-jwt/jwt"
 	"github.com/philips-software/gautocloud-connectors/hsdp"
 
-	"github.com/philips-labs/terraform-backend-hsdp/backend"
-	"github.com/philips-labs/terraform-backend-hsdp/backend/store/s3"
+	"github.com/loafoe/terraform-backend-hsdp/backend"
+	"github.com/loafoe/terraform-backend-hsdp/backend/store/s3"
 )
 
 func main() {

@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 
 	"github.com/minio/minio-go/v7"
-	"github.com/philips-labs/terraform-backend-hsdp/backend/store"
-	"github.com/philips-labs/terraform-backend-hsdp/backend/types"
+	"github.com/loafoe/terraform-backend-hsdp/backend/store"
+	"github.com/loafoe/terraform-backend-hsdp/backend/types"
 )
 
 // GetLock gets the lock

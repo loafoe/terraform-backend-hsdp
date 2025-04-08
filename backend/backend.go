@@ -9,8 +9,8 @@ import (
 	"time"
 
 	gocrypto "github.com/bhoriuchi/go-crypto"
-	"github.com/philips-labs/terraform-backend-hsdp/backend/store"
-	"github.com/philips-labs/terraform-backend-hsdp/backend/types"
+	"github.com/loafoe/terraform-backend-hsdp/backend/store"
+	"github.com/loafoe/terraform-backend-hsdp/backend/types"
 )
 
 // Options backend options

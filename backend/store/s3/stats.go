@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/minio/minio-go/v7"
-	"github.com/philips-labs/terraform-backend-hsdp/backend/store"
+	"github.com/loafoe/terraform-backend-hsdp/backend/store"
 )
 
 var _ store.Stats = (*Store)(nil)
