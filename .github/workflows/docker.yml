@@ -27,7 +27,7 @@ jobs:
          registry: docker.na1.hsdp.io
          username: ${{ secrets.HSDP_DOCKER_USERNAME }}
          password: ${{ secrets.HSDP_DOCKER_PASSWORD }}
-     - uses: actions/checkout@v3
+     - uses: actions/checkout@v4
      -
        name: Build and push terraform-backend-hsdp
        uses: docker/build-push-action@v4
