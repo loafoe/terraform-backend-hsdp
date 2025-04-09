@@ -13,7 +13,7 @@ import (
 
 	"github.com/cloudfoundry-community/gautocloud"
         "github.com/golang-jwt/jwt"
-	"github.com/philips-software/gautocloud-connectors/hsdp"
+	"github.com/dip-software/gautocloud-connectors/hsdp"
 
 	"github.com/loafoe/terraform-backend-hsdp/backend"
 	"github.com/loafoe/terraform-backend-hsdp/backend/store/s3"

@@ -6,7 +6,7 @@ import (
 	"github.com/cloudfoundry-community/gautocloud"
 	"github.com/minio/minio-go/v7"
 	"github.com/loafoe/terraform-backend-hsdp/backend/store"
-	"github.com/philips-software/gautocloud-connectors/hsdp"
+	"github.com/dip-software/gautocloud-connectors/hsdp"
 )
 
 var _ store.Store = (*Store)(nil)
